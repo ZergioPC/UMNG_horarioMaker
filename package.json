@@ -1,0 +1,11 @@
+{
+  "name": "maquetador-de-horarios",
+  "version": "0.0.1",
+  "description": "maquetador de horarios para estudiantes universitarios",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node index.js"
+  },
+  "author": "Sergio Danilo Palacios Castillo",
+  "license": "ISC"
+}

@@ -5,14 +5,35 @@ const dataSimulada = {
         grupo:"AMB A",
         prioridad: true,
         dias: [[1,0],[1,4],[2,2]],
+        creditos:3,
     },
     esp:{
         nombre:"español",
         grupo:"MUL A",
         prioridad: false,
         dias: [[3,5],[5,4],[5,5]],
+        creditos:6,
+    },
+    soc:{
+        nombre:"sociales",
+        grupo:"IND C",
+        prioridad: false,
+        dias: [[1,0],[2,0],[3,0]],
+        creditos:8,
+    },
+    nat:{
+        nombre:"naturale",
+        grupo:"MEC A",
+        prioridad: true,
+        dias: [[1,0],[1,1],[2,1]],
+        creditos:1,
     }
 }
+
+//MARK: Variables
+const horario = Array.from({ length: 13 }, () => Array(6).fill()); //[Hora][Dia]
+const maxCreditos = 16;
+let estCreditos = 0;
 
 //MARK: Clase de Nodo
 
@@ -22,7 +43,10 @@ class Nodo{
         this.materia = "empty";
         this.grupo = "empty";
         this.dias = [];
-        this.prioridad = false
+        this.prioridad = false;
+        this.ogData = null
+        this.creditos = 0;
+        this.domButton = null
     }
     
     default(){
@@ -33,17 +57,38 @@ class Nodo{
         this.prioridad = false
     }
     
-    actualizar(data){
+    actualizar(data,btn){
         if(this.tieneMateria){
+            
+            this.materia = this.ogData.materia;
+            this.grupo = this.ogData.grupo;
+            this.dias = this.ogData.dias;
+            this.creditos = this.ogData.creditos;
+
+            this.materia = this.materia + "/" + data.nombre;
+            this.grupo = this.grupo + "/" + data.grupo;
+            this.dias = this.dias.concat(data.dias);
+            
             console.log(`${this.materia} ya se encuentra en este espacio`);
         }else{
+            this.domButton = btn;
+            this.domButton.disabled = true;
             this.tieneMateria = true;
             this.materia = data.nombre;
             this.grupo = data.grupo;
             this.dias = data.dias;
+            this.creditos = data.creditos;
+            this.ogData = {
+                materia:this.materia,
+                grupo:this.grupo,
+                dias:this.dias,
+                creditos:data.creditos
+            }
         }
     }
     borrar(){
+        estCreditos = estCreditos - this.creditos;
+        this.domButton.disabled = false;
         this.dias.forEach(dia =>{
             horario[dia[0]][dia[1]].default();
             dibujarTabla()
@@ -93,18 +138,21 @@ for(const materia in dataSimulada){
     
     btn.addEventListener("click",()=>{
         const auxMateria = dataSimulada[materia];
-        auxMateria.dias.forEach(dia => {
-            horario[dia[0]][dia[1]].actualizar(auxMateria);
-            dibujarTabla()
-        });
+        if(estCreditos+auxMateria.creditos <= maxCreditos){
+            estCreditos = estCreditos + auxMateria.creditos
+            auxMateria.dias.forEach(dia => {
+                horario[dia[0]][dia[1]].actualizar(auxMateria,btn);
+                dibujarTabla()
+            });
+        }else{
+            console.log("Numero de creditos superado")
+        }
     })
     li.appendChild(btn);
     $ulMaterias.appendChild(li);
 }
 
 //MARK: Horario
-
-const horario = Array.from({ length: 13 }, () => Array(6).fill()); //[Hora][Dia]
 
 for (let hora = 0; hora < horario.length; hora++) {
     for (let dia = 0; dia < horario[hora].length; dia++) {

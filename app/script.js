@@ -1,6 +1,6 @@
 //MARK: Variables
 const horario = Array.from({ length: 13 }, () => Array(6).fill()); //[Hora][Dia]
-const maxCreditos = 96;
+let maxCreditos = 99;
 let estCreditos = 0;
 let auxMateriasSuperpuestas = false;
 let auxDiasSuperpuestos = []
@@ -76,7 +76,7 @@ class Nodo{
         }
         console.log("borrado")
     }
-
+    
     dibujar(){
         const div = document.createElement("div");
         if(!this.tieneMateria){
@@ -103,10 +103,62 @@ class Nodo{
     }
 }
 
-// DOM
+//MARK: DOM
 
 const $horario = document.getElementById("horario");
 const $ulMaterias = document.getElementById("listadoMaterias");
+const $divUsuario = document.getElementById("datosEstudiante");
+const $pCreditos = document.getElementById("creditos");
+
+function $listaDeMaterias(data){
+    for(const materia in data){
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        
+        if(data[materia].prioridad){
+            btn.innerText = data[materia].nombre + " - " + data[materia].grupo + " (!)";
+        }else{
+            btn.innerText = data[materia].nombre + " - " + data[materia].grupo;
+        }
+        
+        btn.addEventListener("click",()=>{
+            const auxMateria = data[materia];
+            if(estCreditos+auxMateria.creditos <= maxCreditos && !auxMateriasSuperpuestas){
+                estCreditos = estCreditos + auxMateria.creditos
+                auxMateria.dias.forEach(dia => {
+                    horario[dia[0]][dia[1]].actualizar(auxMateria,btn);
+                    dibujarTabla()
+                });
+            }else if(auxMateriasSuperpuestas){
+                console.log("hay materias superpuestas!")
+            }else{
+                console.log("Numero de creditos superado")
+            }
+        })
+        li.appendChild(btn);
+        $ulMaterias.appendChild(li);
+    }
+}
+
+function $datosEstudiante(nombre,codigo,foto){
+    const pNombre = document.createElement("p");
+    const pCodigo = document.createElement("p");
+    const img = document.createElement("img");
+    
+    pNombre.innerText = nombre;
+    pCodigo.innerText = codigo
+    img.src = foto;
+
+    $divUsuario.appendChild(img);
+    $divUsuario.appendChild(pNombre);
+    $divUsuario.appendChild(pCodigo);
+}
+
+function $mostrarCreditos(){
+    $pCreditos.innerText = estCreditos + " de " + maxCreditos;
+}
+
+//MARK: GET DATA
 
 fetch('./data.json')
     .then(response => {
@@ -115,33 +167,10 @@ fetch('./data.json')
         }
         return response.json();
     }).then(data => {       
-        for(const materia in data){
-            const li = document.createElement("li");
-            const btn = document.createElement("button");
-            
-            if(data[materia].prioridad){
-                btn.innerText = data[materia].nombre + " - " + data[materia].grupo + " (!)";
-            }else{
-                btn.innerText = data[materia].nombre + " - " + data[materia].grupo;
-            }
-            
-            btn.addEventListener("click",()=>{
-                const auxMateria = data[materia];
-                if(estCreditos+auxMateria.creditos <= maxCreditos && !auxMateriasSuperpuestas){
-                    estCreditos = estCreditos + auxMateria.creditos
-                    auxMateria.dias.forEach(dia => {
-                        horario[dia[0]][dia[1]].actualizar(auxMateria,btn);
-                        dibujarTabla()
-                    });
-                }else if(auxMateriasSuperpuestas){
-                    console.log("hay materias superpuestas!")
-                }else{
-                    console.log("Numero de creditos superado")
-                }
-            })
-            li.appendChild(btn);
-            $ulMaterias.appendChild(li);
-        }
+        maxCreditos = data.creditos;
+        $listaDeMaterias(data.materias)
+        $datosEstudiante(data.nombre,data.codigo,data.avatar)
+        $mostrarCreditos()
     }).catch(error => {
         console.error(error);
     });
@@ -158,7 +187,6 @@ for (let hora = 0; hora < horario.length; hora++) {
 //MARK: Dibujar Tabla
 
 function dibujarTabla() {
-
     const tabla = document.createElement("table");
 
     horario.forEach(fila => {
@@ -173,6 +201,7 @@ function dibujarTabla() {
 
     $horario.innerHTML = "";
     $horario.appendChild(tabla);
+    $mostrarCreditos()
 }
 
 dibujarTabla()

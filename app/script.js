@@ -1,39 +1,9 @@
-//MARK: Datos de prueba [hora][dia]
-const dataSimulada = {
-    mat:{
-        nombre:"matematicas",
-        grupo:"AMB A",
-        prioridad: true,
-        dias: [[1,0],[1,4],[2,2]],
-        creditos:3,
-    },
-    esp:{
-        nombre:"español",
-        grupo:"MUL A",
-        prioridad: false,
-        dias: [[3,5],[5,4],[5,5]],
-        creditos:6,
-    },
-    soc:{
-        nombre:"sociales",
-        grupo:"IND C",
-        prioridad: false,
-        dias: [[1,0],[2,0],[3,0]],
-        creditos:8,
-    },
-    nat:{
-        nombre:"naturale",
-        grupo:"MEC A",
-        prioridad: true,
-        dias: [[1,0],[1,1],[2,1]],
-        creditos:1,
-    }
-}
-
 //MARK: Variables
 const horario = Array.from({ length: 13 }, () => Array(6).fill()); //[Hora][Dia]
-const maxCreditos = 16;
+const maxCreditos = 96;
 let estCreditos = 0;
+let auxMateriasSuperpuestas = false;
+let auxDiasSuperpuestos = []
 
 //MARK: Clase de Nodo
 
@@ -54,12 +24,15 @@ class Nodo{
         this.materia = "empty";
         this.grupo = "empty";
         this.dias = [];
-        this.prioridad = false
+        this.prioridad = false;
+        if(this.domButton != null){
+            this.domButton.disabled = false;
+        }
     }
     
     actualizar(data,btn){
         if(this.tieneMateria){
-            
+            auxMateriasSuperpuestas = true;
             this.materia = this.ogData.materia;
             this.grupo = this.ogData.grupo;
             this.dias = this.ogData.dias;
@@ -67,7 +40,7 @@ class Nodo{
 
             this.materia = this.materia + "/" + data.nombre;
             this.grupo = this.grupo + "/" + data.grupo;
-            this.dias = this.dias.concat(data.dias);
+            auxDiasSuperpuestos = this.dias.concat(data.dias);
             
             console.log(`${this.materia} ya se encuentra en este espacio`);
         }else{
@@ -89,10 +62,18 @@ class Nodo{
     borrar(){
         estCreditos = estCreditos - this.creditos;
         this.domButton.disabled = false;
-        this.dias.forEach(dia =>{
-            horario[dia[0]][dia[1]].default();
-            dibujarTabla()
-        })
+        if(auxMateriasSuperpuestas){
+            auxDiasSuperpuestos.forEach(dia =>{
+                horario[dia[0]][dia[1]].default();
+                dibujarTabla()
+            })
+            auxMateriasSuperpuestas = false;
+        }else{
+            this.dias.forEach(dia =>{
+                horario[dia[0]][dia[1]].default();
+                dibujarTabla()
+            })
+        }
         console.log("borrado")
     }
 
@@ -123,34 +104,48 @@ class Nodo{
 }
 
 // DOM
+
 const $horario = document.getElementById("horario");
 const $ulMaterias = document.getElementById("listadoMaterias");
 
-for(const materia in dataSimulada){
-    const li = document.createElement("li");
-    const btn = document.createElement("button");
-    
-    if(dataSimulada[materia].prioridad){
-        btn.innerText = dataSimulada[materia].nombre + " - " + dataSimulada[materia].grupo + " (!)";
-    }else{
-        btn.innerText = dataSimulada[materia].nombre + " - " + dataSimulada[materia].grupo;
-    }
-    
-    btn.addEventListener("click",()=>{
-        const auxMateria = dataSimulada[materia];
-        if(estCreditos+auxMateria.creditos <= maxCreditos){
-            estCreditos = estCreditos + auxMateria.creditos
-            auxMateria.dias.forEach(dia => {
-                horario[dia[0]][dia[1]].actualizar(auxMateria,btn);
-                dibujarTabla()
-            });
-        }else{
-            console.log("Numero de creditos superado")
+fetch('./data.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error al cargar el JSON: ${response.status}`);
         }
-    })
-    li.appendChild(btn);
-    $ulMaterias.appendChild(li);
-}
+        return response.json();
+    }).then(data => {       
+        for(const materia in data){
+            const li = document.createElement("li");
+            const btn = document.createElement("button");
+            
+            if(data[materia].prioridad){
+                btn.innerText = data[materia].nombre + " - " + data[materia].grupo + " (!)";
+            }else{
+                btn.innerText = data[materia].nombre + " - " + data[materia].grupo;
+            }
+            
+            btn.addEventListener("click",()=>{
+                const auxMateria = data[materia];
+                if(estCreditos+auxMateria.creditos <= maxCreditos && !auxMateriasSuperpuestas){
+                    estCreditos = estCreditos + auxMateria.creditos
+                    auxMateria.dias.forEach(dia => {
+                        horario[dia[0]][dia[1]].actualizar(auxMateria,btn);
+                        dibujarTabla()
+                    });
+                }else if(auxMateriasSuperpuestas){
+                    console.log("hay materias superpuestas!")
+                }else{
+                    console.log("Numero de creditos superado")
+                }
+            })
+            li.appendChild(btn);
+            $ulMaterias.appendChild(li);
+        }
+    }).catch(error => {
+        console.error(error);
+    });
+
 
 //MARK: Horario
 

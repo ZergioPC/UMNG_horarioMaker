@@ -1,0 +1,30 @@
+{
+    "mat":{
+        "nombre":"matematicas",
+        "grupo":"AMB A",
+        "prioridad": true,
+        "dias": [[1,0],[1,4],[2,2]],
+        "creditos":3
+    },
+    "esp":{
+        "nombre":"español",
+        "grupo":"MUL A",
+        "prioridad": false,
+        "dias": [[3,5],[5,4],[5,5]],
+        "creditos":6
+    },
+    "soc":{
+        "nombre":"sociales",
+        "grupo":"IND C",
+        "prioridad": false,
+        "dias": [[1,0],[2,0],[3,0]],
+        "creditos":8
+    },
+    "nat":{
+        "nombre":"naturale",
+        "grupo":"MEC A",
+        "prioridad": true,
+        "dias": [[1,0],[1,1],[2,1]],
+        "creditos":1
+    }
+}

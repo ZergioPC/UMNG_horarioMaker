@@ -4,6 +4,7 @@
     "avatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-72AKGr4HBaTGvRwighRDaqgam_7RnS-hoQ&s",
     "materias":{
         "mat":{
+            "id":1,
             "nombre":"matematicas",
             "grupo":"AMB A",
             "prioridad": true,
@@ -11,6 +12,7 @@
             "creditos":3
         },
         "esp":{
+            "id":2,
             "nombre":"español",
             "grupo":"MUL A",
             "prioridad": false,
@@ -18,6 +20,7 @@
             "creditos":6
         },
         "soc":{
+            "id":3,
             "nombre":"sociales",
             "grupo":"IND C",
             "prioridad": false,
@@ -25,6 +28,7 @@
             "creditos":8
         },
         "nat":{
+            "id":4,
             "nombre":"naturale",
             "grupo":"MEC A",
             "prioridad": true,
@@ -32,5 +36,5 @@
             "creditos":1
         }
     },
-    "creditos":15
+    "creditos":55
 }

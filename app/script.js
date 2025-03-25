@@ -2,13 +2,18 @@
 const horario = Array.from({ length: 13 }, () => Array(6).fill()); //[Hora][Dia]
 let maxCreditos = 99;
 let estCreditos = 0;
+
+// variables que gestiónan en caso de superposición de materias
 let auxMateriasSuperpuestas = false;
-let auxDiasSuperpuestos = []
+let auxDiasSuperpuestos = [];
+let auxCreditos = 0;
+let auxNodosSuperpuestos = []
 
 //MARK: Clase de Nodo
 
 class Nodo{
-    constructor(){
+    constructor(id){
+        this.id = id;
         this.tieneMateria = false;
         this.materia = "empty";
         this.grupo = "empty";
@@ -20,6 +25,7 @@ class Nodo{
     }
     
     default(){
+        this.id = -1;
         this.tieneMateria = false;
         this.materia = "empty";
         this.grupo = "empty";
@@ -30,9 +36,13 @@ class Nodo{
         }
     }
     
-    actualizar(data,btn){
+    actualizar(data,btn,id){
         if(this.tieneMateria){
             auxMateriasSuperpuestas = true;
+            auxDiasSuperpuestos = this.dias.concat(data.dias);
+            auxCreditos = this.creditos + data.creditos;
+            auxNodosSuperpuestos = [this.id, data.id]
+
             this.materia = this.ogData.materia;
             this.grupo = this.ogData.grupo;
             this.dias = this.ogData.dias;
@@ -40,10 +50,10 @@ class Nodo{
 
             this.materia = this.materia + "/" + data.nombre;
             this.grupo = this.grupo + "/" + data.grupo;
-            auxDiasSuperpuestos = this.dias.concat(data.dias);
             
             console.log(`${this.materia} ya se encuentra en este espacio`);
         }else{
+            this.id = id;
             this.domButton = btn;
             this.domButton.disabled = true;
             this.tieneMateria = true;
@@ -59,20 +69,28 @@ class Nodo{
             }
         }
     }
-    borrar(){
-        estCreditos = estCreditos - this.creditos;
-        this.domButton.disabled = false;
+
+    borrar(callback){
+        /* Sí hay superposición de materias, no se puede agregar
+        o borrar otro nodo hasta solucionar la solucionar la superposición */
+
+        const verificar = auxNodosSuperpuestos.some(id => this.id == id);
+        
         if(auxMateriasSuperpuestas){
-            auxDiasSuperpuestos.forEach(dia =>{
-                horario[dia[0]][dia[1]].default();
+            if(verificar){
+                auxNodosSuperpuestos.forEach(id => {
+                    callback(id); 
+                });
+                estCreditos = estCreditos - auxCreditos;
+                auxMateriasSuperpuestas = false;
                 dibujarTabla()
-            })
-            auxMateriasSuperpuestas = false;
+            }else{
+                console.log("Solucione primero el cruce de materias!")
+            }
         }else{
-            this.dias.forEach(dia =>{
-                horario[dia[0]][dia[1]].default();
-                dibujarTabla()
-            })
+            callback(this.id);
+            estCreditos = estCreditos - this.creditos;
+            dibujarTabla()
         }
         console.log("borrado")
     }
@@ -91,8 +109,14 @@ class Nodo{
             pMateria.innerText = this.materia;
             pGrupo.innerText = this.grupo;
             btn.innerText = "E"
-            btn.addEventListener("click",()=>{
-                this.borrar()
+            btn.addEventListener("click",()=>{          // Paso un callback como parametro que permita
+                this.borrar(function(id){               // usar la función "buscarMateria()" recursivamente
+                    const nodos = buscarMateria(id);    // dependiendo sí hay superposición de materias, y 
+                    nodos.forEach(nodo => {             // activar el metodo "default()" de cada nodo correspondiente
+                        nodo.default()
+                        nodo.domButton.disabled = false;
+                    });
+                })
             })
             
             div.appendChild(pMateria);
@@ -111,6 +135,8 @@ const $divUsuario = document.getElementById("datosEstudiante");
 const $pCreditos = document.getElementById("creditos");
 
 function $listaDeMaterias(data){
+    /* Dibuja el listado de materias en la interfaz*/
+
     for(const materia in data){
         const li = document.createElement("li");
         const btn = document.createElement("button");
@@ -126,7 +152,7 @@ function $listaDeMaterias(data){
             if(estCreditos+auxMateria.creditos <= maxCreditos && !auxMateriasSuperpuestas){
                 estCreditos = estCreditos + auxMateria.creditos
                 auxMateria.dias.forEach(dia => {
-                    horario[dia[0]][dia[1]].actualizar(auxMateria,btn);
+                    horario[dia[0]][dia[1]].actualizar(auxMateria,btn,auxMateria.id);
                     dibujarTabla()
                 });
             }else if(auxMateriasSuperpuestas){
@@ -141,6 +167,8 @@ function $listaDeMaterias(data){
 }
 
 function $datosEstudiante(nombre,codigo,foto){
+    /* Dibuja los datos personales del estudiante en la interfaz */
+
     const pNombre = document.createElement("p");
     const pCodigo = document.createElement("p");
     const img = document.createElement("img");
@@ -178,11 +206,26 @@ fetch('./data.json')
 
 //MARK: Horario
 
-for (let hora = 0; hora < horario.length; hora++) {
-    for (let dia = 0; dia < horario[hora].length; dia++) {
-        horario[hora][dia] = new Nodo();
+(function(){
+    for (let hora = 0; hora < horario.length; hora++) {
+        for (let dia = 0; dia < horario[hora].length; dia++) {
+            horario[hora][dia] = new Nodo(-1);
+        }
     }
-} 
+})(); 
+
+function buscarMateria(code){                           // Busca en el array "horario" todos los
+    let valor = [];                                     // todos los nodos que coincidan con el
+    for (let i = 0; i < horario.length; i++) {          // id de la materia y los retorna en un
+        for (let j = 0; j < horario[i].length; j++) {   // array
+            if(horario[i][j].id === code){
+                valor.push(horario[i][j]);
+            }
+        }
+    }
+    return valor;
+}
+
 
 //MARK: Dibujar Tabla
 

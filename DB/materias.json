@@ -1,0 +1,56 @@
+{
+    "101":{
+        "id":101,
+        "nombre":"ambiental",
+        "creditos":3,
+        "grupos":{
+            "AMB A":[[1,0],[1,4],[2,2]],
+            "AMB B":[[2,0],[3,0],[2,5]]
+        }
+    },
+    "102":{
+        "id":102,
+        "nombre":"mecatronica",
+        "creditos":4,
+        "grupos":{
+            "MUL A":[[1,0],[1,4],[2,2]],
+            "MUL B":[[2,0],[3,0],[2,5]]
+        }
+    },
+    "103":{
+        "id":103,
+        "nombre":"industrial",
+        "creditos":3,
+        "grupos":{
+            "IND A":[[1,0],[1,4],[2,2]],
+            "IND B":[[2,0],[3,0],[2,5]]
+        }
+    },
+    "104":{
+        "id":104,
+        "nombre":"biomedica",
+        "creditos":4,
+        "grupos":{
+            "BMED A":[[1,0],[1,4],[2,2]],
+            "BMED B":[[2,0],[3,0],[2,5]]
+        }
+    },
+    "105":{
+        "id":105,
+        "nombre":"mecatronica",
+        "creditos":5,
+        "grupos":{
+            "MEC A":[[1,0],[1,4],[2,2]],
+            "MEC B":[[2,0],[3,0],[2,5]]
+        }
+    },
+    "106":{
+        "id":106,
+        "nombre":"atencion prehospitalaria",
+        "creditos":3,
+        "grupos":{
+            "APH A":[[1,0],[1,4],[2,2]],
+            "APH B":[[2,0],[3,0],[2,5]]
+        }
+    }
+}

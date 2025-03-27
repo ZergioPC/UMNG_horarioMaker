@@ -4,8 +4,11 @@
   "description": "maquetador de horarios para estudiantes universitarios",
   "main": "index.js",
   "scripts": {
-    "start" : "node index.js"
+    "start": "node index.js"
   },
   "author": "Sergio Danilo Palacios Castillo",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }

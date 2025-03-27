@@ -1,0 +1,14 @@
+{
+    "6000777":{
+        "nombre":"Pepito Perez Peralta",
+        "codigo":"6000777",
+        "avatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-72AKGr4HBaTGvRwighRDaqgam_7RnS-hoQ&s",
+        "materias":[[101,0],[102,1],[103,0]]
+    },
+    "6000999":{
+        "nombre":"Mc Loving Gonzales",
+        "codigo":"6000707",
+        "avatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-72AKGr4HBaTGvRwighRDaqgam_7RnS-hoQ&s",
+        "materias":[[104,0],[105,1],[106,1]]
+    }
+}

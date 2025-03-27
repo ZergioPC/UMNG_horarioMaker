@@ -1,5 +1,5 @@
 //MARK: Variables
-const horario = Array.from({ length: 13 }, () => Array(6).fill()); //[Hora][Dia]
+const horario = Array.from({ length: 12 }, () => Array(6).fill()); //[Hora][Dia]
 let maxCreditos = 99;
 let estCreditos = 0;
 
@@ -119,6 +119,8 @@ class Nodo{
                 })
             })
             
+            div.classList.add("nodo");
+
             div.appendChild(pMateria);
             div.appendChild(pGrupo);
             div.appendChild(btn);
@@ -130,15 +132,30 @@ class Nodo{
 //MARK: DOM
 
 const $horario = document.getElementById("horario");
+const $horarioHoras = document.getElementById("horario-horas");
 const $ulMaterias = document.getElementById("listadoMaterias");
 const $divUsuario = document.getElementById("datosEstudiante");
 const $pCreditos = document.getElementById("creditos");
+const $aside = document.getElementById("aside-listaMaterias");
+const $btnAside = document.getElementById("btnMaterias").addEventListener('click',()=>{
+    $aside.classList.toggle('ocultar-listaMaterias');
+});
+
+(function(){
+    for (let hora = 7; hora < 19; hora++) {         // Dibujar las Horas de
+        const p = document.createElement('p');      // la tabla 
+        if(hora < 10){
+            p.innerText = `0${hora}:00`;
+        }else{
+            p.innerText = `${hora}:00`;
+        }
+        $horarioHoras.appendChild(p);
+    }
+})();
 
 function $listaDeMaterias(data){
-    /* Dibuja el listado de materias en la interfaz*/
-
-    for(const materia in data){
-        const li = document.createElement("li");
+    for(const materia in data){                         // Dibujar el listado de
+        const li = document.createElement("li");        // materias en la interfaz
         const btn = document.createElement("button");
         
         if(data[materia].prioridad){
@@ -167,10 +184,8 @@ function $listaDeMaterias(data){
 }
 
 function $datosEstudiante(nombre,codigo,foto){
-    /* Dibuja los datos personales del estudiante en la interfaz */
-
-    const pNombre = document.createElement("p");
-    const pCodigo = document.createElement("p");
+    const pNombre = document.createElement("p");        // Dibuja los datos del
+    const pCodigo = document.createElement("p");        // estudiante
     const img = document.createElement("img");
     
     pNombre.innerText = nombre;
@@ -183,7 +198,7 @@ function $datosEstudiante(nombre,codigo,foto){
 }
 
 function $mostrarCreditos(){
-    $pCreditos.innerText = estCreditos + " de " + maxCreditos;
+    $pCreditos.innerHTML = "<b>Creditos:</b>" + estCreditos + " de " + maxCreditos;
 }
 
 //MARK: GET DATA
@@ -230,6 +245,17 @@ function buscarMateria(code){                           // Busca en el array "ho
 //MARK: Dibujar Tabla
 
 function dibujarTabla() {
+    const dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+    const section = document.createElement("section");
+
+    dias.forEach(dia => {
+        const p = document.createElement('p');
+        p.innerText = dia;
+        section.appendChild(p);
+    });
+
+    section.classList.add('horario-dias');
+
     const tabla = document.createElement("table");
 
     horario.forEach(fila => {
@@ -243,6 +269,7 @@ function dibujarTabla() {
     });
 
     $horario.innerHTML = "";
+    $horario.appendChild(section);
     $horario.appendChild(tabla);
     $mostrarCreditos()
 }

@@ -10,22 +10,20 @@
     <header>
         <h1>Maquetador de Horarios</h1>
         <span>por Sergio Palacios</span>
-    </header>
-    <main>
-        <h2>Horario</h2>
-        <div id="horario"></div>
-    </main>
-    <aside>
-        <h2>Datos Personales</h2>
-        <div id="datosEstudiante"></div>
-    </aside>
-    <aside>
-        <h2>Creditos</h2>
         <p id="creditos">00</p>
-        <h2>Lista de materias</h2>
-        <ul id="listadoMaterias"></ul>
-    </aside>
-    <footer></footer>
+    </header>
+    <main >
+        <aside id="aside-listaMaterias">
+            <button id="btnMaterias"></button>
+            <h2>Lista de materias</h2>
+            <ul id="listadoMaterias"></ul>
+        </aside>
+        <div class="horario-container">
+            <div id="horario-horas"></div>
+            <div id="horario"></div>
+        </div>
+    </main>
+    <article id="datosEstudiante"></article>
     <script src="./script.js"></script>
 </body>
 </html>

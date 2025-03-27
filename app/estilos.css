@@ -1,3 +1,130 @@
 *{
     font-family: Helvetica;
 }
+
+main {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow-y: hidden;
+    height: 100vh;
+}
+
+header{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+article{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* TABLA */
+
+.horario-container{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 15% 80%;
+    width: 80%;
+    overflow-y: scroll;
+}
+
+#horario-horas{
+    padding-top: 80px;    
+}
+
+#horario-horas > p{
+    height: 120px;
+    margin: 5px;
+    text-align: center;
+}
+
+#horario {
+    grid-column: 2/3;
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.horario-dias{
+    grid-column: 1/2;
+    display: block;
+    width: 720px;
+}
+
+.horario-dias > p {
+    display: inline-block;
+    width: 120px;
+    margin: 0;
+    text-align: center;
+}
+
+table {
+    width: 720px;
+}
+
+table td {
+    width: 120px;
+    height: 120px;
+    border: solid black 1px;
+}
+
+/* MATERIA */
+
+.nodo {
+    background-color: red;
+}
+
+
+/* LISTA DE MATERIAS */
+aside {
+    margin-top: 120px;
+    width: 20%;
+    background: lightgray;
+}
+
+#btnMaterias{
+    display: block;
+}
+
+.ocultar-listaMaterias{
+    transform: translateY(-400px);
+}
+
+
+/* MEDIA QUERYS */
+
+@media (max-width: 768px) {
+    body{
+        overflow: hidden;
+    }
+    main{
+        display: block;
+    }
+
+    header{
+        display: block;
+        position: static;
+    }
+
+    .horario-container {
+        width: 100%;
+        height: 80%;
+    }
+
+    aside {
+        margin-top: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: -85vh;
+    }
+
+    #btnMaterias{
+        display: block;
+    }
+}

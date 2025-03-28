@@ -140,6 +140,9 @@ const $aside = document.getElementById("aside-listaMaterias");
 const $btnAside = document.getElementById("btnMaterias").addEventListener('click',()=>{
     $aside.classList.toggle('ocultar-listaMaterias');
 });
+const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener('click',()=>{
+    $divUsuario.classList.toggle("userinfo-hide");
+});
 
 (function(){
     for (let hora = 7; hora < 19; hora++) {         // Dibujar las Horas de

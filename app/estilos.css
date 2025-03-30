@@ -1,3 +1,25 @@
+:root{
+    --color-borde-suave: #e6e6e6;
+    --color-borde-fuerte: #979797;
+    --color-blanco : #ffffff;
+    --color-azul: #183378;
+}
+
+::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra vertical */
+    height: 8px; /* Altura de la barra horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-borde-suave);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-azul);
+    border-radius: 10px; 
+}
+
 *{
     font-family: Helvetica;
 }
@@ -23,9 +45,15 @@ header{
     left: 0;
 }
 
+button:hover{
+    cursor: pointer;
+    filter: brightness(120%) contrast(80%);
+}
+
 /* USER */
 
 article{
+    z-index: 99;
     position: absolute;
     top: 0;
     right: 0;
@@ -33,7 +61,7 @@ article{
 }
 
 #boton-userInfo{
-    z-index: 5;
+    z-index: 100;
     position: absolute;
     top: 30px;
     right: 50px;
@@ -46,70 +74,150 @@ article{
 /* TABLA */
 
 .horario-container{
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 15% 80%;
+    position: relative;
+    margin-top: 30px;
+    margin-left: 5vw;
     width: 80%;
-    overflow-y: scroll;
+    overflow: scroll;
 }
 
 #horario-horas{
-    padding-top: 80px;    
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    padding-top: 32px;
+    display: grid;
+    width: 80px;
+    grid-template-rows: repeat(12, 133px);
+    align-items: center;
 }
 
 #horario-horas > p{
-    height: 120px;
-    margin: 5px;
+    margin: 0;
+    padding: 0;
     text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    text-align: right;
+}
+
+#horario-dias{
+    z-index: 5;
+    position: sticky;
+    top: 0;
+    right: 99999px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    width: 800px;
+    padding: 7px 0;
+    border-radius: 5px 5px 0 0;
+    background-color: var(--color-azul);
+    color: var(--color-blanco);
+}
+
+#horario-dias > p {
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+#horario ,#horario-dias {
+    margin-left: 100px;
 }
 
 #horario {
-    grid-column: 2/3;
-    width: 100%;
-    overflow-x: scroll;
-}
-
-.horario-dias{
-    grid-column: 1/2;
-    display: block;
-    width: 720px;
-}
-
-.horario-dias > p {
-    display: inline-block;
-    width: 120px;
-    margin: 0;
-    text-align: center;
+    width: 800px;
+    height: 1650px;
 }
 
 table {
-    width: 720px;
+    width: 100%;
+    height: auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+    box-sizing: border-box;
 }
 
 table td {
+    margin: 0;
     width: 120px;
-    height: 120px;
-    border: solid black 1px;
+    height: 130px;
+    border: 1px dotted var(--color-borde-suave);
 }
 
 /* MATERIA */
 
 .nodo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    height: 100%;
     background-color: red;
+    text-align: center;
 }
 
+.nodo p:first-child {
+    margin: 0;
+}
+
+.nodo p:nth-child(2) {
+    margin: 0;
+}
 
 /* LISTA DE MATERIAS */
+
+
 aside {
     margin-top: 120px;
+    padding: 0 20px;
     width: 20%;
     height: 100%;
+    box-sizing: border-box;
     overflow-y: scroll;
-    background: lightgray;
+    background: var(--color-blanco);
+    border: dotted 1px var(--color-borde-fuerte);
+    border-radius: 8px;
+}
+
+aside > h2 {
+    margin-top: 25px;
 }
 
 #btnMaterias{
     display: none;
+    box-sizing: border-box;
+    margin: 8px auto;
+    width: 85%;
+    height: 7px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--color-borde-fuerte);
+}
+
+#listadoMaterias {
+    list-style: none;
+    padding: 0;
+}
+
+#listadoMaterias button{
+    color: var(--color-blanco);
+    background-color: var(--color-azul);
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    width: 180px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+}
+
+#listadoMaterias button:disabled{
+    color: var(--color-borde-fuerte);
+    font-style: italic;
+    text-decoration: line-through;
+    background-color: var(--color-borde-suave);
 }
 
 .ocultar-listaMaterias{
@@ -130,18 +238,21 @@ aside {
     }
 
     .horario-container {
+        margin-top: 0;
+        margin-left: 0;
         width: 100%;
         height: 80%;
     }
 
     aside {
+        z-index: 20;
         position: absolute;
         display: block;
         margin-top: 0;
-        width: 100%;
+        width: 100vw;
         height: 500px;
         max-height: 500px;
-        bottom: -480px;
+        bottom: -420px;
     }
 
     #btnMaterias{

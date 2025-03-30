@@ -1,9 +1,15 @@
 //MARK: Variables
-const horario = Array.from({ length: 12 }, () => Array(6).fill()); //[Hora][Dia]
+const horario = Array.from(
+    { length: 12 }, () => Array(6).fill()           // [Hora][Dia]
+); 
+const listaColores = [ 
+    ["#c4d7f5",false],["#d0c4f5",false],["#eec4f5",false],      // [color, en uso]
+    ["#f5c4c4",false],["#f5d3c4",false],["#f5f1c4",false],
+    ["#d8f5c4",false],["#c4f5cd",false],["#c4f5e8",false]];
 let maxCreditos = 99;
 let estCreditos = 0;
 
-// variables que gestiónan en caso de superposición de materias
+// variables que gestionan en caso de superposición de materias
 let auxMateriasSuperpuestas = false;
 let auxDiasSuperpuestos = [];
 let auxCreditos = 0;
@@ -133,6 +139,7 @@ class Nodo{
 
 const $horario = document.getElementById("horario");
 const $horarioHoras = document.getElementById("horario-horas");
+const $horarioDias = document.getElementById("horario-dias");
 const $ulMaterias = document.getElementById("listadoMaterias");
 const $divUsuario = document.getElementById("datosEstudiante");
 const $pCreditos = document.getElementById("creditos");
@@ -145,6 +152,15 @@ const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener(
 });
 
 (function(){
+    const dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+
+    dias.forEach(dia => {
+        const p = document.createElement('p');
+        p.innerText = dia;
+        $horarioDias.appendChild(p);
+    });
+
+
     for (let hora = 7; hora < 19; hora++) {         // Dibujar las Horas de
         const p = document.createElement('p');      // la tabla 
         if(hora < 10){
@@ -248,17 +264,6 @@ function buscarMateria(code){                           // Busca en el array "ho
 //MARK: Dibujar Tabla
 
 function dibujarTabla() {
-    const dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
-    const section = document.createElement("section");
-
-    dias.forEach(dia => {
-        const p = document.createElement('p');
-        p.innerText = dia;
-        section.appendChild(p);
-    });
-
-    section.classList.add('horario-dias');
-
     const tabla = document.createElement("table");
 
     horario.forEach(fila => {
@@ -272,7 +277,6 @@ function dibujarTabla() {
     });
 
     $horario.innerHTML = "";
-    $horario.appendChild(section);
     $horario.appendChild(tabla);
     $mostrarCreditos()
 }

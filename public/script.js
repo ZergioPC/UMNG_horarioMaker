@@ -1,29 +1,13 @@
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evitar el envío del formulario por defecto
+const qParams = new URLSearchParams(window.location.search)  // Recibe los QueryParams de la URL
+const $alert = document.getElementById("alert");
 
-    const email = document.getElementById('code').value;
-    const password = document.getElementById('password').value;
+if(qParams.has("error") && qParams.get("error")==="1"){
+  const $p = document.createElement("p");
 
-    window.location.href = '../app';
-    try {
-      const response = await fetch('/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await response.json();
-      window.location.href = '/app';
-
-      if (response.ok) {
-        window.location.href = '/todos';
-      } else {
-        console.error('Error en login:', data.message);
-        alert('Error en el login: ' + data.message);
-      }
-    } catch (error) {
-      console.error('Error en la solicitud:', error);
-    }
-  });
+  if((qParams.has("pass"))){
+    $p.innerText = "Contraseña Incorrecta";
+  }else{
+    $p.innerText = "Usuario No encontrado";
+  }
+  $alert.appendChild($p);
+}

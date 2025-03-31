@@ -7,9 +7,10 @@
   <title>Horario Maker</title>
 </head>
 <body>
-  <form id="loginForm">
-    <input type="tel" id="code" placeholder="Codigo" required>
-    <input type="password" id="password" placeholder="Contraseña" required>
+  <article id="alert"></article>
+  <form id="loginForm" action="/login/auth" method="POST">
+    <input type="tel" name="code" placeholder="Código" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
     <button type="submit">Iniciar sesión</button>
   </form>
   <script src="./script.js"></script>

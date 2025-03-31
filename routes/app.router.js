@@ -1,9 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const path = require('path');
+const loginAuth = require("../auth/login.auth.js");
 
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../app/index.html'));
-});
+router.post('/auth', loginAuth.login);
 
 module.exports = router;

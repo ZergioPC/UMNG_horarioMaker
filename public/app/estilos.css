@@ -169,10 +169,9 @@ table td {
 /* LISTA DE MATERIAS */
 
 
-aside {
+#aside-listaMaterias {
     margin-top: 120px;
     padding: 0 20px;
-    width: 20%;
     height: 100%;
     box-sizing: border-box;
     overflow-y: scroll;
@@ -181,7 +180,7 @@ aside {
     border-radius: 8px;
 }
 
-aside > h2 {
+#aside-listaMaterias > h2 {
     margin-top: 25px;
 }
 
@@ -224,6 +223,40 @@ aside > h2 {
     transform: translateY(-400px);
 }
 
+#aside-listaGrupos{
+    z-index: 30;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin-top: 120px;
+    padding: 10px;
+    width: 220px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    background: var(--color-azul);
+    border-radius: 8px;
+}
+
+#aside-listaGrupos button{
+    color: var(--color-azul);
+    background-color: var(--color-blanco);
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    width: 80%;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.ocultar-aside-listaGrupos {
+    transform: translateX(-220px);
+}
 
 /* MEDIA QUERYS */
 
@@ -244,7 +277,7 @@ aside > h2 {
         height: 80%;
     }
 
-    aside {
+    #aside-listaMaterias {
         z-index: 20;
         position: absolute;
         display: block;
@@ -255,7 +288,22 @@ aside > h2 {
         bottom: -420px;
     }
 
+    #aside-listaGrupos {
+        margin-top: 0;
+        width: 100vw;
+        height: 500px;
+        max-height: 500px;
+    }
+
+    .ocultar-aside-listaGrupos {
+        transform: translateY(510px);
+    }
+
     #btnMaterias{
         display: block;
+    }
+
+    #listadoMaterias button {
+        width: 70%;
     }
 }

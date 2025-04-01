@@ -6,6 +6,7 @@ const listaColores = [
     ["#c4d7f5",false],["#d0c4f5",false],["#eec4f5",false],      // [color, en uso]
     ["#f5c4c4",false],["#f5d3c4",false],["#f5f1c4",false],
     ["#d8f5c4",false],["#c4f5cd",false],["#c4f5e8",false]];
+
 let maxCreditos = 99;
 let estCreditos = 0;
 
@@ -172,6 +173,21 @@ const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener(
     }
 })();
 
+function auxTest(dataList,dataInfo){
+    dataList.forEach( materia => {
+        const mat = dataInfo.find(info => info.id == materia[0]);
+        console.log(mat)
+        
+        if(materia[1] == 1){
+            console.log("prioridad");
+            
+        }else{
+            console.log("nel");
+            
+        }
+    })
+}
+
 function $listaDeMaterias(data){
     for(const materia in data){                         // Dibujar el listado de
         const li = document.createElement("li");        // materias en la interfaz
@@ -210,7 +226,8 @@ function $datosEstudiante(nombre,codigo,foto){
     pNombre.innerText = nombre;
     pCodigo.innerText = codigo
     img.src = foto;
-
+    
+    $divUsuario.innerHTML = "";
     $divUsuario.appendChild(img);
     $divUsuario.appendChild(pNombre);
     $divUsuario.appendChild(pCodigo);
@@ -221,6 +238,26 @@ function $mostrarCreditos(){
 }
 
 //MARK: GET DATA
+const USUARIO = new URLSearchParams(window.location.search).get("user");
+
+fetch("/materias/get",{
+    method:"POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user: USUARIO })
+    }
+    ).then(res => res.json()
+    ).then(data => {
+        // En el array llegan [UsuarioInfo][Materias]
+        maxCreditos = data[0].creditos;
+        $datosEstudiante(
+            data[0].nombre,
+            data[0].codigo,
+            data[0].avatar
+        );
+        auxTest(data[0].materias,data[1]);
+        console.log(data[1])
+        $mostrarCreditos()
+    });
 
 fetch('./data.json')
     .then(response => {
@@ -229,10 +266,7 @@ fetch('./data.json')
         }
         return response.json();
     }).then(data => {       
-        maxCreditos = data.creditos;
         $listaDeMaterias(data.materias)
-        $datosEstudiante(data.nombre,data.codigo,data.avatar)
-        $mostrarCreditos()
     }).catch(error => {
         console.error(error);
     });

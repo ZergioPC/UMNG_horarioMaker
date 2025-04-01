@@ -6,7 +6,7 @@ exports.login = (req, res) => {
 
     if(user){
         if (user.pass === parseInt(password)) {
-            res.redirect("/app");
+            res.redirect(`/app?user=${code}`);
         } else {
             res.redirect("/?error=1&pass=1");
         }

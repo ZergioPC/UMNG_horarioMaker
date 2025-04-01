@@ -1,4 +1,4 @@
-const qParams = new URLSearchParams(window.location.search)  // Recibe los QueryParams de la URL
+const qParams = new URLSearchParams(window.location.search);  // Recibe los QueryParams de la URL
 const $alert = document.getElementById("alert");
 
 if(qParams.has("error") && qParams.get("error")==="1"){

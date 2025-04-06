@@ -6,6 +6,7 @@ const puerto = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/assets",express.static(path.join(__dirname, 'assets')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const validarRutes = require("./routes/app.router.js");

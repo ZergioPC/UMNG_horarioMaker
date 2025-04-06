@@ -9,11 +9,14 @@ const $pCreditos = document.getElementById("creditos");
 const $asideClases = document.getElementById("aside-listaMaterias");
 const $asideGrupos = document.getElementById("aside-listaGrupos");
 const $btnAside = document.getElementById("btnMaterias");
+const $iconArrow = $btnAside.childNodes[1];
 $btnAside.addEventListener('click',(event)=>{
-    $asideClases.classList.toggle('ocultar-listaMaterias');
+    $asideClases.classList.toggle('ocultar-listaMaterias');    
+    $iconArrow.classList.toggle("rotate-180");
     event.target.classList.toggle("btnMateriasFlat");
 });
 const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener('click',(event)=>{
+    event.target.classList.toggle("rotate-360");
     $showUserArticle(event.target,$divUsuario.classList.contains("userinfo-show"));
 });
 
@@ -253,6 +256,7 @@ function $listaDeGrupos(codigo,prioridad,btnPadre){
         $btn.addEventListener("click",()=>{
             if($asideClases.classList.contains('ocultar-listaMaterias')){
                 $asideClases.classList.remove('ocultar-listaMaterias');
+                $iconArrow.classList.remove("rotate-180");
             }
             $asideGrupos.classList.toggle("ocultar-aside-listaGrupos")
             $btnAside.classList.toggle("btnMateriasFlat");
@@ -285,7 +289,7 @@ function $datosEstudiante(nombre,codigo,foto){
 }
 
 function $mostrarCreditos(){
-    $pCreditos.innerHTML = "<b>Creditos:</b>" + estCreditos + " de " + maxCreditos;
+    $pCreditos.innerHTML = "<b>Creditos: </b>" + estCreditos + " de " + maxCreditos;
 }
 
 //MARK: GET DATA

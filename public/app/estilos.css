@@ -20,8 +20,18 @@
     border-radius: 10px; 
 }
 
+@font-face {
+    font-family: "Sarala-Bold";
+    src: url('/assets/fonts/Sarala/Sarala-Bold.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: "Sarala";
+    src: url('/assets/fonts/Sarala/Sarala-Regular.ttf') format("truetype");
+}
+
 *{
-    font-family: Helvetica;
+    font-family: "Sarala";
 }
 
 body{
@@ -29,6 +39,10 @@ body{
     height: 100vh;
     width: 100vw;
     overflow: hidden;
+}
+
+h1 {
+    font-family: "Sarala-Bold";
 }
 
 main {
@@ -45,6 +59,26 @@ header{
     position: absolute;
     top: 0;
     left: 0;
+    padding: 10px 15px;
+    height: 128px;
+}
+
+header > h1 {
+    margin: 0;
+    margin-top: 15px;
+    width: 300px;
+    font-size: 23px;
+    line-height: 1em;
+}
+
+header > span {
+    margin: 0;
+    font-style: italic;
+    color: var(--color-borde-fuerte);
+}
+
+header > p {
+    margin: 0;
 }
 
 button:hover{
@@ -74,8 +108,22 @@ article{
 #boton-userInfo{
     z-index: 100;
     position: absolute;
-    top: 30px;
-    right: 50px;
+    top: 17px;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+    border: solid 4px var(--color-azul);
+    background-color: var(--color-blanco);
+    background-image: url("/assets/UI-user-icon.svg");
+    background-size: cover;
+    transition-duration: 500ms;
+}
+
+.rotate-360 {
+    transform: rotateZ(360deg);
 }
 
 .userinfo-show{
@@ -120,10 +168,11 @@ article p {
 article p:first-of-type{
     grid-column: 2/3;
     grid-row: 1/2;
-    color: red;
+    color: var(--color-azul);
 }
 
 article p:last-child{
+    color: var(--color-borde-fuerte);
     grid-column: 2/3;
     grid-row: 2/3;
 }
@@ -259,9 +308,21 @@ table td {
     margin: 15px auto;
     width: 85%;
     height: 10%;
+    align-items: center;
     border-radius: 5px;
     border: none;
     background-color: var(--color-azul);
+}
+
+#btnMaterias img {
+    margin-top: 5px;
+    height: 30px;
+    filter: invert();
+    transition-duration: 500ms;
+}
+
+.rotate-180 {
+    transform: rotateZ(180deg);
 }
 
 #listadoMaterias {
@@ -369,14 +430,25 @@ table td {
 /* MEDIA QUERYS */
 
 @media (max-width: 768px) {
-    main{
-        display: block;
-    }
-
     header{
         display: block;
         position: static;
     }
+
+    header > h1 {
+        font-size: 25px;
+        line-height: 1em;
+    }
+
+    header > p {
+        margin-top: 10px;
+        font-size: 25px;
+    }
+
+    main{
+        display: block;
+    }
+
 
     .horario-container {
         margin-top: 0;

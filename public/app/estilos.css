@@ -3,6 +3,7 @@
     --color-borde-fuerte: #979797;
     --color-blanco : #ffffff;
     --color-azul: #183378;
+    --color-negro: #000000;
 }
 
 ::-webkit-scrollbar {
@@ -260,6 +261,7 @@ table td {
     width: 120px;
     height: 130px;
     border: 1px dotted var(--color-borde-suave);
+    color: var(--color-borde-suave);
 }
 
 /* MATERIA */
@@ -271,16 +273,36 @@ table td {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: red;
     text-align: center;
+    text-transform: capitalize;
+    color: var(--color-negro);
 }
 
 .nodo p:first-child {
+    font-size: 15px;
     margin: 0;
 }
 
 .nodo p:nth-child(2) {
+    font-size: 12px;
+    opacity: 60%;
     margin: 0;
+}
+
+.nodo button{
+    margin-left: 5px;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    background-color: var(--color-blanco);
+    border: none;
+    border-radius: 10px;
+}
+
+.nodo img {
+    margin-top: 2px;
+    height: 80%;
+    width: auto;
 }
 
 /* LISTA DE MATERIAS */

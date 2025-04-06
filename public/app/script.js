@@ -1,4 +1,24 @@
+//MARK: VARIABLES DOM
+
+const $horario = document.getElementById("horario");
+const $horarioHoras = document.getElementById("horario-horas");
+const $horarioDias = document.getElementById("horario-dias");
+const $ulMaterias = document.getElementById("listadoMaterias");
+const $divUsuario = document.getElementById("datosEstudiante");
+const $pCreditos = document.getElementById("creditos");
+const $asideClases = document.getElementById("aside-listaMaterias");
+const $asideGrupos = document.getElementById("aside-listaGrupos");
+const $btnAside = document.getElementById("btnMaterias");
+$btnAside.addEventListener('click',(event)=>{
+    $asideClases.classList.toggle('ocultar-listaMaterias');
+    event.target.classList.toggle("btnMateriasFlat");
+});
+const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener('click',(event)=>{
+    $showUserArticle(event.target,$divUsuario.classList.contains("userinfo-show"));
+});
+
 //MARK: Variables
+
 const horario = Array.from(
     { length: 12 }, () => Array(6).fill()           // [Hora][Dia]
 ); 
@@ -145,22 +165,7 @@ class Nodo{
     }
 }
 
-//MARK: DOM
-
-const $horario = document.getElementById("horario");
-const $horarioHoras = document.getElementById("horario-horas");
-const $horarioDias = document.getElementById("horario-dias");
-const $ulMaterias = document.getElementById("listadoMaterias");
-const $divUsuario = document.getElementById("datosEstudiante");
-const $pCreditos = document.getElementById("creditos");
-const $asideClases = document.getElementById("aside-listaMaterias");
-const $asideGrupos = document.getElementById("aside-listaGrupos");
-const $btnAside = document.getElementById("btnMaterias").addEventListener('click',()=>{
-    $asideClases.classList.toggle('ocultar-listaMaterias');
-});
-const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener('click',()=>{
-    $divUsuario.classList.toggle("userinfo-hide");
-});
+//MARK: FUNCIONES DOM
 
 (function(){
     const dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
@@ -183,6 +188,31 @@ const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener(
     }
 })();
 
+function $showUserArticle(btn,visible){
+    btn.disabled = true;
+    setTimeout(function(){btn.disabled = false},1000);
+
+    if(!visible){
+        $divUsuario.classList.add("userinfo-show");
+        $divUsuario.classList.remove("userinfo-content-hide");
+        setTimeout(function(){
+            $divUsuario.classList.add("userinfo-grid");
+        },10);
+        setTimeout(function(){
+            $divUsuario.childNodes.forEach(element => element.classList.add("userinfo-content-show"));
+        },700);
+    }else{
+        $divUsuario.childNodes.forEach(element => element.classList.remove("userinfo-content-show"));
+        setTimeout(function(){
+            $divUsuario.classList.add("userinfo-content-hide");
+        },250);
+        setTimeout(function(){
+            $divUsuario.classList.remove("userinfo-grid");
+            $divUsuario.classList.remove("userinfo-show");
+        },610);
+    }
+}
+
 function $listaDeMaterias(dataList,dataInfo){
     /* Dibujar las materias en la interfáz */
     materiasListado = dataInfo;
@@ -192,9 +222,9 @@ function $listaDeMaterias(dataList,dataInfo){
         const $li = document.createElement("li");
         const $btn = document.createElement("button");
         $btn.innerText = mat.nombre;
-        $btn.addEventListener("click",()=>{
+        $btn.addEventListener("click",(event)=>{
             if(estCreditos+mat.creditos <= maxCreditos && !auxMateriasSuperpuestas){
-                $listaDeGrupos(materia[0],materia[1],$btn);
+                $listaDeGrupos(materia[0],materia[1],event.target);
                 $asideGrupos.classList.toggle("ocultar-aside-listaGrupos");
             }else if(auxMateriasSuperpuestas){
                 console.log("hay materias superpuestas!")
@@ -221,7 +251,11 @@ function $listaDeGrupos(codigo,prioridad,btnPadre){
         }
         
         $btn.addEventListener("click",()=>{
-            $asideGrupos.classList.toggle("ocultar-aside-listaGrupos");
+            if($asideClases.classList.contains('ocultar-listaMaterias')){
+                $asideClases.classList.remove('ocultar-listaMaterias');
+            }
+            $asideGrupos.classList.toggle("ocultar-aside-listaGrupos")
+            $btnAside.classList.toggle("btnMateriasFlat");
             estCreditos = estCreditos + materia.creditos;
             materia.grupos[grupo].forEach(dia => {
                 horario[dia[0]][dia[1]].actualizar(             // Se pasa el Boton Padre para que sea el

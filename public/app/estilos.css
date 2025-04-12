@@ -35,6 +35,10 @@
     font-family: "Sarala";
 }
 
+#imprimirView{
+    display: none;
+}
+
 body{
     margin: 0;
     height: 100vh;
@@ -584,5 +588,137 @@ table td {
     article button {
         margin-top: 10px;
         border: solid 2px var(--color-blanco);
+    }
+}
+
+@media print {
+    @page {
+        size: A3 landscape;
+        margin: 30px;
+    }
+
+    * {
+        page-break-after: avoid;
+        page-break-before: avoid;
+    }
+
+    body{
+        visibility: hidden;
+    }
+
+    #imprimirView {
+        visibility: visible !important;
+        display: block;
+    }
+
+    section {
+        border: solid 1px black;
+        position: relative;
+        background-color: #ffffff;
+    }
+
+    table td {
+        margin: 0;
+        padding: 0;
+        height: auto;
+        width: auto;
+        box-sizing: border-box;
+        border: 3px dotted black;
+        background-color: #ffffff;
+    }
+    
+    table td p{
+        visibility: hidden;
+    }
+    
+    .nodo {
+        overflow: hidden;
+    }
+
+    .nodo p {
+        visibility: visible;
+    }
+
+    .nodo p:first-child {
+        font-size: 10px;
+        margin: 0;
+    }
+    
+    .nodo p:nth-child(2) {
+        font-size: 7px;
+        opacity: 60%;
+        margin: 0;
+    }
+
+    .nodo button {
+        display: none;
+    }
+
+    /* DIBUJANDO TABLA */
+
+    .print-horario-dias {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-left: 100px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .print-horario-dias p {
+        margin: 0;
+        padding: 0;
+        width: 100px;
+        height: 40px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .print-horario-horas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 73px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .print-horario-horas p{
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: 100px;
+        height: 61.5px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .print-horario-tabla {
+        margin: 0;
+        margin-top: 50px;
+        margin-left: 100px;
+        padding: 0;
+        box-sizing: border-box;
+        width: 600px;
+        height: 600px;
+    }
+
+    /* Lista de Materias */
+
+    .print-lista {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 400px;
+        height: auto;
+    }
+
+    .print-lista li {
+        text-transform: capitalize;
+    }
+
+    main, article, header, button {
+        display: none !important;
     }
 }

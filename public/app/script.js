@@ -23,6 +23,9 @@ $btnUserInfo.addEventListener('click',()=>{
     $showUserArticle($btnUserInfo,$divUsuario.classList.contains("userinfo-show"));
 });
 
+const $btnPrint = document.getElementById("btnImprimir");
+const $divPrint = document.getElementById("imprimirView");
+
 //MARK: Variables
 
 const horario = Array.from(
@@ -125,14 +128,14 @@ class Nodo{
                 });
                 estCreditos = estCreditos - auxCreditos;
                 auxMateriasSuperpuestas = false;
-                dibujarTabla()
+                dibujarTabla($horario)
             }else{
                 alert("Solucione primero el cruce de materias!");
             }
         }else{
             callback([this.id]);
             estCreditos = estCreditos - this.creditos;
-            dibujarTabla()
+            dibujarTabla($horario)
         }
     }
     
@@ -293,7 +296,7 @@ function $listaDeGrupos(codigo,prioridad,btnPadre){
                     btnPadre,materia.id,materia.grupos[grupo],
                     listaColores[colorActual]
                 );        
-                dibujarTabla();
+                dibujarTabla($horario);
             });
             colorSelector();
         });
@@ -357,10 +360,9 @@ function buscarMateria(code){                           // Busca en el array "ho
     return valor;
 }
 
-
 //MARK: Dibujar Tabla
 
-function dibujarTabla() {
+function dibujarTabla(element) {
     const tabla = document.createElement("table");
 
     horario.forEach(fila => {
@@ -373,9 +375,83 @@ function dibujarTabla() {
         tabla.appendChild(tr);
     });
 
-    $horario.innerHTML = "";
-    $horario.appendChild(tabla);
+    element.innerHTML = "";
+    element.appendChild(tabla);
     $mostrarCreditos()
 }
 
-dibujarTabla()
+dibujarTabla($horario)
+
+$btnPrint.addEventListener("click",()=>{
+    const dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+    const materias = [];
+    const materiasID = [];
+
+    const $sectionHorario = document.createElement("section");
+    const $divDias = document.createElement("div");
+    const $divHoras = document.createElement("div");
+    const $divTabla = document.createElement("div");
+
+    const $sectionTitulo = document.createElement("section");
+    const $h1 =  document.createElement("h1");
+
+    const $sectionLog = document.createElement("section");
+    const $p = document.createElement("p");
+    const $listado = document.createElement("ul");
+
+    dias.forEach(dia => {
+        const p = document.createElement('p');
+        p.innerText = dia;
+        $divDias.appendChild(p);
+    });
+
+    for (let hora = 7; hora < 19; hora++) {         // Dibujar las Horas de
+        const p = document.createElement('p');      // la tabla 
+        if(hora < 10){
+            p.innerText = `0${hora}:00`;
+        }else{
+            p.innerText = `${hora}:00`;
+        }
+        $divHoras.appendChild(p);
+    }
+    dibujarTabla($divTabla);
+    $divPrint.innerHTML = "";
+
+    $divDias.classList.add('print-horario-dias');
+    $divHoras.classList.add('print-horario-horas');
+    $divTabla.classList.add('print-horario-tabla');
+
+    $h1.innerText = "Horario Maker";
+    $sectionTitulo.appendChild($h1)
+
+    $sectionHorario.appendChild($divDias);
+    $sectionHorario.appendChild($divHoras);
+    $sectionHorario.appendChild($divTabla);
+
+    $sectionLog.classList.add('print-lista');
+
+    horario.forEach(hora => {
+        hora.forEach(nodo => {
+            if(nodo.tieneMateria && !materiasID.includes(nodo.id)){
+                materias.push(nodo);
+                materiasID.push(nodo.id);
+            }
+        });
+    });
+    
+    materias.forEach(nodo =>{
+        const $li = document.createElement("li");
+        $li.innerText = nodo.materia + " - " + nodo.grupo;
+        $listado.appendChild($li);
+    });
+
+    $p.innerText = "Lista de Materias";
+
+    $sectionLog.appendChild($p);
+    $sectionLog.appendChild($listado);
+
+    $divPrint.appendChild($sectionTitulo);
+    $divPrint.appendChild($sectionHorario);
+    $divPrint.appendChild($sectionLog);
+    print()
+})

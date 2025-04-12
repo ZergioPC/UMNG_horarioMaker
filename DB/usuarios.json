@@ -1,17 +1,72 @@
 [
     {
-        "nombre":"Pepito Perez Peralta",
-        "codigo":"6000777",
+        "nombre":"Lusheeta Toel Ul",
+        "codigo":"6000701",
         "pass":1234,
-        "avatar":"https://images.justwatch.com/poster/196615719/s718/chuunibyou-demo-koi-ga-shitai.jpg",
+        "avatar":"6000701.jpg",
         "creditos":12,
         "materias":[[101,0],[102,1],[103,0]]
-    },
-    {
+    },{
         "nombre":"Mc Loving Gonzales",
-        "codigo":"6000707",
+        "codigo":"6000007",
         "pass":1234,
-        "avatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-72AKGr4HBaTGvRwighRDaqgam_7RnS-hoQ&s",
+        "avatar":"6000007.jpeg",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Samuel de Luque",
+        "codigo":"6000777",
+        "pass":1234,
+        "avatar":"6000777.png",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Luisiana de Paula",
+        "codigo":"6000201",
+        "pass":1234,
+        "avatar":"6000201.jpeg",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Ricardo Orrego",
+        "codigo":"6000444",
+        "pass":1234,
+        "avatar":"6000444.jpeg",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Chihiro Ogino",
+        "codigo":"6000123",
+        "pass":1234,
+        "avatar":"6000123.webp",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Sophie Hatter",
+        "codigo":"6000456",
+        "pass":1234,
+        "avatar":"6000456.jpeg",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Heidi",
+        "codigo":"6000100",
+        "pass":1234,
+        "avatar":"6000100.jpeg",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Porco Rosso",
+        "codigo":"6000945",
+        "pass":1234,
+        "avatar":"6000945.webp",
+        "creditos":12,
+        "materias":[[104,0],[105,1],[106,1]]
+    },{
+        "nombre":"Thomas el Tren",
+        "codigo":"6000303",
+        "pass":1234,
+        "avatar":"6000303.webp",
         "creditos":12,
         "materias":[[104,0],[105,1],[106,1]]
     }

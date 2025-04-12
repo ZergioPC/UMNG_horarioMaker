@@ -3,16 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="estilos.css">
   <title>Horario Maker</title>
 </head>
 <body>
   <article id="alert"></article>
-  <form id="loginForm" action="/login/auth" method="POST">
-    <input type="tel" name="code" placeholder="Código" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
-    <button type="submit">Iniciar sesión</button>
-  </form>
+  <img src="/assets/UI-login-fondo.jpg" alt="fondo">
+  <div></div>
+  <section>
+    <h1>Horario Maker</h1>
+    <p>por Sergio Palacios</p>
+    <form id="loginForm" action="/login/auth" method="POST">
+      <input type="tel" name="code" placeholder="Código" required>
+      <input type="password" name="password" placeholder="Contraseña" required>
+      <button type="submit">Iniciar sesión</button>
+    </form>
+  </section>
   <script src="./script.js"></script>
 </body>
 </html>

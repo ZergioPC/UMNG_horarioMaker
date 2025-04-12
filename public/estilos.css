@@ -1,10 +1,116 @@
+:root{
+    --color-borde-suave: #e6e6e6;
+    --color-borde-fuerte: #979797;
+    --color-blanco : #ffffff;
+    --color-azul: #183378;
+    --color-negro: #000000;
+}
+
+@font-face {
+    font-family: "Sarala";
+    src: url('/assets/fonts/Sarala/Sarala-Regular.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: "Banger";
+    src: url('/assets/fonts/Bangers/Bangers-Regular.ttf') format("truetype");
+}
+
+*{
+    font-family: "Sarala";
+    color: var(--color-negro);
+}
+
+body {
+    display: flex;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--color-blanco);
+}
+
+article{
+    margin-bottom: 10px;
+    padding: 0 30px;
+    background-color: #ffdfdf;
+    color: var(--color-blanco);
+    opacity: 60%;
+    border-radius: 7px;
+}
+
+img {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    filter: grayscale() brightness(1.5) opacity(0.5);
+}
+
+div{
+    z-index: -2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-azul);
+}
+
+h1 {
+    margin: 5px 0;
+    font-size: 50px;
+    font-family: "Banger";
+}
+
+section{
+    padding: 80px 0;
+    width: 400px;
+    text-align: center;
+    background-color: var(--color-blanco);
+    border-radius: 7px;
+}
+
 form {
     max-width: 300px;
-    margin: 100px auto;
+    margin: 0px auto;
     display: flex;
     flex-direction: column;
 }
+
 input, button {
     margin: 5px 0;
     padding: 10px;
+}
+
+button {
+    color: var(--color-blanco);
+    background-color: var(--color-azul);
+    border: none;
+    border-radius: 7px;
+}
+
+button:hover {
+    cursor: pointer;
+    filter: brightness(1.15);
+}
+
+@media screen and (max-width: 768px) {
+    section{
+        width: 100vw;
+        border-radius: 0;
+    }
+
+    img {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+    }
 }

@@ -3,9 +3,9 @@
 const $horario = document.getElementById("horario");
 const $horarioHoras = document.getElementById("horario-horas");
 const $horarioDias = document.getElementById("horario-dias");
-const $ulMaterias = document.getElementById("listadoMaterias");
-const $divUsuario = document.getElementById("datosEstudiante");
 const $pCreditos = document.getElementById("creditos");
+
+const $ulMaterias = document.getElementById("listadoMaterias");
 const $asideClases = document.getElementById("aside-listaMaterias");
 const $asideGrupos = document.getElementById("aside-listaGrupos");
 const $btnAside = document.getElementById("btnMaterias");
@@ -15,9 +15,12 @@ $btnAside.addEventListener('click',(event)=>{
     $iconArrow.classList.toggle("rotate-180");
     event.target.classList.toggle("btnMateriasFlat");
 });
-const $btnUserInfo = document.getElementById("boton-userInfo").addEventListener('click',(event)=>{
-    event.target.classList.toggle("rotate-360");
-    $showUserArticle(event.target,$divUsuario.classList.contains("userinfo-show"));
+
+const $divUsuario = document.getElementById("datosEstudiante");
+const $btnUserInfo = document.getElementById("boton-userInfo");
+$btnUserInfo.addEventListener('click',()=>{
+    $btnUserInfo.classList.toggle("rotate-360");
+    $showUserArticle($btnUserInfo,$divUsuario.classList.contains("userinfo-show"));
 });
 
 //MARK: Variables
@@ -26,9 +29,10 @@ const horario = Array.from(
     { length: 12 }, () => Array(6).fill()           // [Hora][Dia]
 ); 
 const listaColores = [ 
-    "#c4d7f5","#d0c4f5","#eec4f5",      // [color, en uso]
+    "#c4d7f5","#d0c4f5","#eec4f5",
     "#f5c4c4","#f5d3c4","#f5f1c4",
     "#d8f5c4","#c4f5cd","#c4f5e8"];
+
 let colorActual = 0;
 
 let maxCreditos = 99;
@@ -208,6 +212,9 @@ function colorSelector(){
 
 function $showUserArticle(btn,visible){
     btn.disabled = true;
+    btn.firstElementChild.classList.toggle("userIMG-hide");
+    btn.lastElementChild.classList.toggle("userIMG-hide");
+    
     setTimeout(function(){btn.disabled = false},1000);
 
     if(!visible){
@@ -217,10 +224,14 @@ function $showUserArticle(btn,visible){
             $divUsuario.classList.add("userinfo-grid");
         },10);
         setTimeout(function(){
-            $divUsuario.childNodes.forEach(element => element.classList.add("userinfo-content-show"));
+            for (const element of $divUsuario.children) {
+                element.classList.add("userinfo-content-show")
+            }
         },700);
     }else{
-        $divUsuario.childNodes.forEach(element => element.classList.remove("userinfo-content-show"));
+        for (const element of $divUsuario.children) {
+            element.classList.remove("userinfo-content-show")
+        }
         setTimeout(function(){
             $divUsuario.classList.add("userinfo-content-hide");
         },250);
@@ -291,18 +302,11 @@ function $listaDeGrupos(codigo,prioridad,btnPadre){
 }
 
 function $datosEstudiante(nombre,codigo,foto){
-    const pNombre = document.createElement("p");        // Dibuja los datos del
-    const pCodigo = document.createElement("p");        // estudiante
-    const img = document.createElement("img");
+    $divUsuario.children[1]
     
-    pNombre.innerText = nombre;
-    pCodigo.innerText = codigo
-    img.src = foto;
-    
-    $divUsuario.innerHTML = "";
-    $divUsuario.appendChild(img);
-    $divUsuario.appendChild(pNombre);
-    $divUsuario.appendChild(pCodigo);
+    $divUsuario.children[1].innerText = nombre;
+    $divUsuario.children[2].innerText = codigo
+    $divUsuario.children[0].src = "/assets/img/"+foto;    
 }
 
 function $mostrarCreditos(){
@@ -320,6 +324,7 @@ fetch("/materias/get",{
     ).then(res => res.json()
     ).then(data => {
         // En el array llegan [UsuarioInfo][Materias]
+        $btnUserInfo.firstElementChild.src = "/assets/img/" + data[0].avatar;
         maxCreditos = data[0].creditos;
         $datosEstudiante(
             data[0].nombre,
